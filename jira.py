@@ -1,6 +1,7 @@
 import requests
 import json
 from requests.auth import HTTPBasicAuth
+from requests.models import Response
 
 
 class Jira:
@@ -34,7 +35,8 @@ class Jira:
         )
 
         response = requests.post(url, headers=self.__headers, auth=self.auth, data=payload)
-        print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
+        return json.loads(response.text)
+
 
     def issue_update(self, issue_key_or_id, summary, description):
 
@@ -64,7 +66,7 @@ class Jira:
             headers=self.__headers,
             auth=self.auth
         )
-        print(response.text)
+        return response.text
 
     def issue_delete(self, issue_key_or_id):
         url = f"https://webdream.atlassian.net/rest/api/2/issue/{issue_key_or_id}"
@@ -73,7 +75,7 @@ class Jira:
             url,
             auth=self.auth
         )
-        print(response.text)
+        return response.text
 
     def issue_get(self, issue_key_or_id):
 
@@ -85,5 +87,4 @@ class Jira:
             headers=self.__headers,
             auth=self.auth
         )
-        print(response.text)
-
+        return response.text
